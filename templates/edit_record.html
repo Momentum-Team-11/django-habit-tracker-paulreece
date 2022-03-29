@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ma5">
+<h1>Edit Record</h1>
+
+<div class="control">
+<form action="{% url 'edit_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %}" method="POST">
+    {% csrf_token %}
+    <div class="form-field mt3">
+    <label for="{{form.date.id_for_label}}">{{ form.date.label }}</label>
+    <input class="input" type="text" name={{form.date.html_name}} id="record-date-input" value="{{record.date|date:"m/d/Y" }}">
+    </div>
+    <div class="form-field mt3">
+    <label for="{{form.goal_number.id_for_label}}">{{form.goal_number.label }}</label>
+    <input class="input" type="text" name={{form.goal_number.html_name}} id="record-goal_number-input" value="{{record.goal_number }}">
+    </div>      
+    <div class="mt3">
+        <button class="button is-primary" type="submit">Save changes</button>
+        </div>
+</form>
+<div>
+    <a href={% url 'record_detail' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} ><button class="button is-danger white" >Cancel</button></a>
+    </div>
+
+
+</div>
+</div>
+{% endblock %}

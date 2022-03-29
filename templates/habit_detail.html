@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block javascript %}
+<script src="{% static 'chart.js' %}"></script>
+<script src="{% static 'main.min.js' %}"></script>
+{% endblock javascript %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if habit.user_id == user.id %}
+<div class="ma5">
+<div class="title-chart">
+<div class="pb3 habit-title">
+    <div class="box w-60 h-75 pb7 pt4 habit-box">
+        <p class="p1 f3 lh-copy">Habit: {{ habit.name }} </p>
+        <p>Description: {{ habit.description }} </p>
+        <p>Goal: {{ habit.goal }} </p>
+        <p>Unit: {{ habit.unit }} </p>
+        <p>Average: {{attempt_avg.goal_number__avg|floatformat}} </p>
+    </div>
+    </div>
+
+<div class="habit-time"><canvas  id="myChart" height="300" width="300"></canvas></div>
+<script>
+    const ctx = document.getElementById('myChart');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: '{{ habit.unit }}',
+                data: {{data|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+
+            }
+        }
+    });
+    </script>
+</div>
+
+<h1 class="record-title"><u>Daily Record of Attempts: </u></h1>
+<div><a href={% url 'add_record' habit.slug %} ><button class="button is-primary white" >Add a New Record</button></a>
+<a href={% url 'homepage' %} ><button class="button is-danger white" >Back to Habit List</button></a>
+</div>
+<br>
+{% for record in records %}
+{% if record.goal_number >= habit.goal %}
+<div class="box w-60 h-75 pb7 pt4">
+<div class="achieved">
+<p><a href={% url 'record_detail' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day  %} class="goal_number">Attempt: {{ record.goal_number|intcomma }} {{ habit.unit }}</a></p>
+<p class="date">Date: {{ record.date|date:"m/d/Y" }} </p>
+<p alt="achieved goal"> Achieved: ✅</p>
+<div class="pt4">
+</div>
+</div>
+<a href={% url 'edit_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Edit Record |</a>
+<a href={% url 'delete_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Delete Record |</a>
+</div>
+
+{% else %}
+<div class="box w-60 h-75 pb7 pt4">
+<div class="missed">
+    <p><a href={% url 'record_detail' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} class="goal_number">Attempt: {{ record.goal_number }} {{ habit.unit }}</a></p>
+    <p class="date">Date: {{ record.date|date:"m/d/Y" }} </p>
+    <p alt="missed goal"> Achieved: ❌</p>
+    <div class="pt4">
+    </div>
+    </div>
+    <a href={% url 'edit_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Edit Record |</a>
+<a href={% url 'delete_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Delete Record |</a>
+</div>
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endif %}
+
+</div>
+<h1 class="calendar-title"><u>Habit Calendar: </u></h1>
+<br>
+<div class="calendar-container" ><div id='calendar' ></div></div>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: {{json_list|safe}},
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+        
+      });
+      calendar.render();
+    });
+
+  </script>
+  
+{% endblock content %}
+
+
+
+{{ cal|safe }}
+
+<div class="pb4">
+    <div id='calendar'></div>
+    <script>
+    
+        document.addEventListener('DOMContentLoaded', function() {
+          var calendarEl = document.getElementById('calendar');
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+            events: [title = {{record.goal_number|safe }} ,
+            start = {{record.date|date:"Y-m-d"|safe}},
+            end = {{record.date|date:"Y-m-d"|safe}},
+            ],
+            initialView: 'dayGridMonth',
+          });
+          calendar.render();
+        });
+    

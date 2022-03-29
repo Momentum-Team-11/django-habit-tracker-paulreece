@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block meta %}{% endblock meta %}
+  <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed&display=swap" rel="stylesheet">
+<link href="{% static 'main.min.css' %}" rel='stylesheet' />
+
+  <title> Habit Tracker </title>
+  {% block javascript %}{% endblock javascript %}
+</head>
+
+<body class="sans-serif">
+  <header class="pa1 hero is-medium is-success is-flex-direction-row is-justify-content-space-between is-align-content-center ">
+    
+    <a href={% url "homepage" %} class="db link underline-hover blue"><h1 class="f1 lh-copy db header is-flex-direction-row is-align-content-center ">Habit Tracker</h1></a>
+ 
+      <div class="f6 lh-copy">
+        {% if user.is_authenticated %}
+          <a href={% url 'auth_logout' %} class="db">Log Out</a>
+        
+        {% else %}
+          <a href={% url 'registration_register' %} class="db">Register</a>
+          <a href={% url 'auth_login' %} class="db">Log In</a>
+        {% endif %}
+
+   </header>
+
+  <div >
+    {% block content %}
+    {% endblock content %}
+  </div>
+</body>
+
+</html>
+

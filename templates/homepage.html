@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="ma5">
+<h1 class="record-title"><u>Current Habits: </u></h1>
+{% for habit in habits %}
+{% if habit.user_id == user.id %}
+
+<div class="pb3">
+    <div class="box w-60 h-75 pb7 pt4">
+        <p class="p1 f3 lh-copy"><a href={% url 'habit_detail' habit.slug%} >{{ habit.name }}</a> </p>
+        <p>Description: {{ habit.description }} </p>
+        <p>Goal: {{ habit.goal }} </p>
+        <p>Unit: {{ habit.unit }} </p>
+  <div class="pt4">
+    <a href={% url 'edit_habit' slug=habit.slug %} class=>Edit Habit |</a>
+    <a href={% url 'delete_habit' slug=habit.slug %} class=>Delete Habit </a>
+</div>
+</div>
+</div>
+
+
+{% endif %}
+{% endfor %}
+<a href={% url 'add_habit' pk=user.pk %} ><button class="button is-primary white" >Add a New Habit</button></a>
+<a href={% url 'auth_logout' %} class="db">Log Out</a>
+{% endif %}
+</div>
+
+
+{% endblock content %}

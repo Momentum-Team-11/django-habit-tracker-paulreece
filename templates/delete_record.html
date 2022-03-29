@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ma5">
+<div>
+  <form action="{% url 'delete_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %}" method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete <span>{{ record.date }}</span>?</p>
+    <div>
+        <button class="button is-danger" type="submit">Delete Record</button>
+    </div>
+
+  </form>
+  <div>
+    <a href={% url 'record_detail' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} ><button class="button is-primary white" >Cancel</button></a>
+    </div>
+
+
+</div>
+</div>
+
+{% endblock %}

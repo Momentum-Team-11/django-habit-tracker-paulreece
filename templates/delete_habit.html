@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ma5">
+<div>
+  <form action="{% url 'delete_habit' slug=habit.slug %}" method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete <span>{{ habit.name }}</span>?</p>
+    <div>
+    <button class="button is-danger" type="submit">Delete Habit</button>
+    </div>
+  </form>
+  <div>
+    <a href={% url 'homepage' %} class="white" ><button class="button is-primary" >Cancel</button></a>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+
+
+{% if record.goal_number >= habit.goal %}
+<div class="ma5">
+<div class="pb4">
+<div class="box w-60 h-75 pb7 pt4">
+<p>Attempt: {{ record.goal_number|intcomma }} {{ habit.unit }}</p>
+<p>Date: {{ record.date|date:"m/d/Y" }} </p>
+<p alt="achieved goal"> Achieved: ✅</p>
+<div class="pt4">
+</div>
+</div>
+</div>
+<a href={% url 'edit_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Edit Record |</a>
+<a href={% url 'delete_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Delete Record |</a>
+<a href={% url 'habit_detail' habit.slug %} >Back to Habit</a>
+{% else %}
+<div class="pb4">
+    <div class="box w-60 h-75 pb7 pt4">
+    <p>Attempt: {{ record.goal_number|intcomma }} {{ habit.unit }}</p>
+    <p>Date: {{ record.date|date:"m/d/Y" }} </p>
+    <p alt="missed goal"> Achieved: ❌</p>
+    <div class="pt4">
+    </div>
+    </div>
+    </div>
+<a href={% url 'edit_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Edit Record |</a>
+<a href={% url 'delete_record' slug=habit.slug pk=record.pk year=record.date.year month=record.date.month day=record.date.day %} >Delete Record |</a>
+<a href={% url 'habit_detail' habit.slug %} >Back to Habit</a>
+
+{% endif %}
+</div>
+{% endblock content %}

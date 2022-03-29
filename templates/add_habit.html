@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="ma5">
+<h1> Add a New Habit!</h1>
+<div>
+<form  method="POST">
+    {% csrf_token %}
+    <div class="w-60">
+    <div>Habit Name:<input class="input" type="text" name={{form.name.html_name}} id="habit-name-input" value="{{habit.name}}"></div>
+    <div>Description:<input class="input" type="text" name={{form.description.html_name}} id="habit-description-input" value="{{habit.description}}"></div>
+    <div>Goal:<input class="input" type="text" name={{form.goal.html_name}} id="habit-goal-input" value="{{habit.goal}}"></div>
+    <div>Unit:<input class="input" type="text" name={{form.unit.html_name}} id="habit-unit-input" value="{{habit.unit}}"></div>
+    </div>
+</div>
+    <div>
+    <button class="button is-primary" type="submit">Save Habit</button>
+    </div>
+
+</form>
+<div>
+    <a href={% url 'homepage' %} class="white" ><button class="button is-danger" >Cancel</button></a>
+    </div>
+</div>
+</div>
+{% endblock content %}

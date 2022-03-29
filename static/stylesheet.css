@@ -1,0 +1,54 @@
+.title-chart {
+  display:flex;
+
+}
+.white {
+  color: white;
+}
+/* .achieved { */
+  /* background-color: green; */
+/* } */
+/* .missed { */
+  /* background-color: red; */
+}
+.date {
+  color: white;
+}
+.goal_number {
+  color: blueviolet;
+}
+td {
+  height: 200px;
+  width: 200px;
+  border: solid 1px;
+}
+.habit-time{
+  height: 300px;
+  width: 300px;
+  box-sizing: content-box;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  }
+.habit-title{
+padding-top:30px;
+padding-right: 0px;
+width: 600px;
+padding-left:O px;
+box-sizing: content-box;
+}
+.habit-box {
+  box-sizing: content-box;
+}
+.record-title{
+  font-size: xx-large;
+}
+.calendar-title {
+  font-size: xx-large;
+  padding-left:12px;
+}
+
+
+.page-contain {
+  padding-left: 30px;
+}

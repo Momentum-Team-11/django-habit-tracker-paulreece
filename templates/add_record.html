@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="ma5">
+<h1> Add a New Record!</h1>
+<form  method="POST">
+    {% csrf_token %}
+    <div class="w-60">
+    <div>Goal Number:<input class="input" type="text" name={{form.goal_number.html_name}} id="record-goal_number-input" value="{{record.goal_number}}"></div>
+    <div>Date:<input class="input" type="text" name={{form.date.html_name}} id="record-date-input" value="{% now "m/d/Y" %}"></div>
+    
+    </div>
+</div>
+    <div>
+    <button class="button is-primary" type="submit">Save Record</button>
+    </div>
+    <div>
+        <button class="button is-danger" ><a href={% url 'habit_detail' habit.slug%} ></a>Cancel</button>
+        </div>
+</form>
+</div>
+
+{% endblock content %}

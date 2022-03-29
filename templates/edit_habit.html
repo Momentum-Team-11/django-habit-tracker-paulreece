@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ma5">
+<h1>Edit Habit</h1>
+
+<div class="control">
+<form action="{% url 'edit_habit' slug=habit.slug %}" method="POST">
+    {% csrf_token %}
+    <div class="form-field mt3">
+    <label for="{{form.name.id_for_label}}">{{ form.name.label }}</label>
+    <input class="input" type="text" name={{form.name.html_name}} id="habit-name-input" value="{{habit.name }}">
+    </div>
+    <div class="form-field mt3">
+    <label for="{{form.description.id_for_label}}">{{form.description.label }}</label>
+    <input class="input" type="text" name={{form.description.html_name}} id="habit-description-input" value="{{habit.description }}">
+    </div>      
+    <div class="form-field mt3">
+    <label for="{{form.goal.id_for_label}}">{{form.goal.label }}</label>
+    <input class="input" type="text" name={{form.goal.html_name}} id="habit-goal-input" value="{{habit.goal }}">
+    </div>  
+    <div class="form-field mt3">
+        <label for="{{form.unit.id_for_label}}">{{form.unit.label }}</label>
+        <input class="input" type="text" name={{form.unit.html_name}} id="habit-unit-input" value="{{habit.unit }}">
+        </div>
+    <div class="mt3">
+    <button class="button is-primary" type="submit">Save changes</button>
+    </div>
+</form>
+<div>
+    <a href={% url 'homepage' %} >
+    <button class="button is-danger white" >Cancel</button></a>
+    </div>
+</div>
+</div>
+{% endblock %}
